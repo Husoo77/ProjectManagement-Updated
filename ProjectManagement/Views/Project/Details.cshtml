@@ -1,0 +1,76 @@
+﻿@model ProjectManagement.Domain.Entities.Project
+
+@{
+    ViewData["Title"] = "Projektdetaljer";
+}
+
+<div class="container mt-4">
+    <div class="card shadow-lg">
+        <div class="card-header bg-primary text-white">
+            <h3 class="mb-0">Projektdetaljer - @Model.ProjectNumber</h3>
+        </div>
+        <div class="card-body">
+            <div class="row">
+                <div class="col-md-6">
+                    <dl class="row">
+                        <dt class="col-sm-4">Projektnamn</dt>
+                        <dd class="col-sm-8">@Model.Name</dd>
+
+                        <dt class="col-sm-4">Projektledare</dt>
+                        <dd class="col-sm-8">@Model.ProjectManager</dd>
+
+                        <dt class="col-sm-4">Kund</dt>
+                        <dd class="col-sm-8">@Model.Customer.Name</dd>
+
+                        <dt class="col-sm-4">Tjänst</dt>
+                        <dd class="col-sm-8">@Model.Service</dd>
+                    </dl>
+                </div>
+                <div class="col-md-6">
+                    <dl class="row">
+                        <dt class="col-sm-4">Startdatum</dt>
+                        <dd class="col-sm-8">@Model.StartDate.ToString("yyyy-MM-dd")</dd>
+
+                        <dt class="col-sm-4">Slutdatum</dt>
+                        <dd class="col-sm-8">@Model.EndDate.ToString("yyyy-MM-dd")</dd>
+
+                        <dt class="col-sm-4">Totalpris</dt>
+                        <dd class="col-sm-8">@Model.TotalPrice.ToString("N0") SEK</dd>
+
+                        <dt class="col-sm-4">Status</dt>
+                        <dd class="col-sm-8">
+                            @{
+                                var badgeClass = Model.Status switch
+                                {
+                                    "Not Started" => "bg-secondary",
+                                    "Ongoing" => "bg-primary",
+                                    "Completed" => "bg-success",
+                                    _ => "bg-secondary"
+                                };
+                            }
+                            <span class="badge @badgeClass">
+                                @(Model.Status switch
+                                {
+                                    "Not Started" => "Ej Påbörjad",
+                                    "Ongoing" => "Pågående",
+                                    "Completed" => "Avslutad",
+                                    _ => Model.Status
+                                })
+                            </span>
+                        </dd>
+                    </dl>
+                </div>
+            </div>
+        </div>
+        <div class="card-footer">
+            <div class="d-flex justify-content-between">
+                <a asp-action="Index" class="btn btn-secondary">
+                    <i class="bi bi-arrow-left"></i> Tillbaka till listan
+                </a>
+                <a asp-action="Update" asp-route-id="@Model.Id" class="btn btn-primary">
+                    <i class="bi bi-pencil"></i> Redigera projekt
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
